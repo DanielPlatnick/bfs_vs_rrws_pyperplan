@@ -21,6 +21,7 @@ Implements the A* (a-star) and weighted A* search algorithm.
 
 import heapq
 import logging
+import random
 
 from . import searchspace
 
@@ -192,4 +193,139 @@ def astar_search(
         counter += 1
     logging.info("No operators left. Task unsolvable.")
     logging.info("%d Nodes expanded" % expansions)
+    return None
+
+
+def random_walk(task, heuristic, current_state, h_min, max_walk_len, restart_probability):
+    walk_len = 0
+    sampled_node = current_state
+    # print(f"current heuristic min: {heuristic(sampled_node)}")
+    restart_probability = restart_probability * 100
+
+    while walk_len < max_walk_len:    # restart hardcoded threshold t_g = 100
+
+        # print(f"random_walk: current h = {heuristic(sampled_node)}, walk length = {walk_len}")
+        sampled_state = sampled_node.state
+        # print("test", sampled_state)
+        sampled_actions = task.get_successor_states(sampled_state)
+        num_applicable_actions = len(sampled_actions)
+        
+        # print("Test", actions)
+        if num_applicable_actions == 0 or heuristic(sampled_node) == float("inf"):
+            return sampled_node, walk_len    # dead end situation
+        
+        random_num = random.randint(0,num_applicable_actions-1)     # perform random action selection
+        chosen_operator = sampled_actions[random_num][0]
+        chosen_succ_state = sampled_actions[random_num][1]
+        # action_sequence.append((chosen_operator, chosen_succ_state))
+
+        sampled_node = searchspace.make_child_node(sampled_node, chosen_operator, chosen_succ_state)    # the successor node object
+        sampled_node_state = sampled_node.state
+        h_succ = heuristic(sampled_node)
+        succ_actions = task.get_successor_states(sampled_node_state)
+
+        walk_len += 1   # setting counter for the restart threshold 
+
+        if h_succ < h_min or task.goal_reached(sampled_node_state):       # found lower h
+            # walk_len += 1
+            # print(f"h decreased, walk length: {walk_len}")
+            # print(f"current h = {heuristic(sampled_node)}, walk length = {walk_len}")
+
+            
+            return sampled_node, walk_len
+        
+        restart_rv = random.randint(1,100)
+        if restart_rv <= restart_probability: 
+            # print(f"sampled number: {restart_rv}/100, restart probability: {restart_probability}, restart probability condition hit")
+            # print("len action seq", len(action_sequence))
+            restarted_walk_len = walk_len
+            walk_len = 0
+            return searchspace.make_root_node(task.initial_state), restarted_walk_len     # restarting probability condition based on r_p
+
+
+
+    print('test max walk len hit')
+    return sampled_node, walk_len       # max walk len hit
+
+def monte_carlo_rrw_search(
+    task, heuristic, max_walk_len = 700, restart_probability=0.01, time_limit=3000, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
+):
+    """
+    Searches for a plan in the given task using monte carlo RRW search.
+
+    @param task The task to be solved
+    @param heuristic  A heuristic callable which computes the estimated steps
+                      from a search node to reach the goal.
+    @param make_open_entry An optional parameter to change the bahavior of the
+                           astar search. The callable should return a search
+                           node, possible values are ordered_node_astar,
+                           ordered_node_weighted_astar and
+                           ordered_node_greedy_best_first with obvious
+                           meanings.
+    """
+    node_tiebreaker = 0
+
+    root = searchspace.make_root_node(task.initial_state)  # setting root node s_0
+
+    init_h = heuristic(root)  # setting initial heuristic
+    h_min = heuristic(root)
+
+    current_state = make_open_entry(root, init_h, node_tiebreaker)[-1]  # setting current state to initial state (returns (f, h, node_tiebreaker, node))
+
+
+    logging.info("Initial h value: %f" % init_h)
+    #hi
+    expansions = 0
+    time = 0 # setting counter for overall search time limit
+    num_walks = 1
+
+    while time < time_limit: 
+        # print(f"walk number {num_walks}")
+        sampled_node, walk_len = random_walk(task, heuristic, current_state, h_min, max_walk_len, restart_probability)   # sampled is a tuple containing (f, h, tiebreak, sampled_node). the sampled node itself is the last index
+        # walk_len += 1 #  fixing the offset by python indexing
+        expansions += walk_len      #  TRIPLE CHECK IF THIS IS RIGHT  ##### i think it's right
+        # print(f"expansions = {expansions}")
+        h_sampled = heuristic(sampled_node)    # sampled_node is the node object
+        num_walks += 1
+        # print(f"monte_carlo_rrw_search: current h = {h_sampled}, walk length = {walk_len}")
+
+        sampled_state = sampled_node.state
+
+        num_applicable_actions = len(task.get_successor_states(sampled_state))
+
+        if task.goal_reached(sampled_state):
+            sol = sampled_node.extract_solution()
+            # print(sol)
+            print(f"Goal reached on walk number: {num_walks-1}")
+            logging.info("Goal reached. Start extraction of solution.")
+            logging.info("%d Nodes expanded" % expansions)
+            # print([i[0] for i in action_sequence])        # checking the correct plan
+
+            return sampled_node.extract_solution()  # TODO: look at details of extract_solution and chaining action sequences
+
+        elif num_applicable_actions > 0 and h_sampled < h_min:  # successfully found new lowest h state, update current state to new lowest h state
+
+            current_state = sampled_node
+            # print(sampled)
+            h_min = heuristic(sampled_node)
+            # walk_len = 0
+        
+
+        
+        else:   # restart r_p condition hit or max walk length hit 
+            current_state = make_open_entry(root, init_h, node_tiebreaker)[-1]      # restart by setting current state = to initial state
+            h_min = heuristic(current_state)
+            # walk_len = 0
+            # print("restart condition hit", walk_len)
+
+        # num_walks += 1
+        # print(f"walk number {num_walks}")
+        # print(f"current h = {heuristic(sampled_node)}, walk_length = {walk_len}")      # not
+        time += 1
+
+
+    #     counter += 1
+    # logging.info("No operators left. Task unsolvable.")
+    # logging.info("%d Nodes expanded" % expansions)
+    print("Time limit reached, failed to find a solution")
     return None

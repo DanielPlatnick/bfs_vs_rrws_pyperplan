@@ -35,6 +35,7 @@ SEARCHES = {
     "ehs": search.enforced_hillclimbing_search,
     "ids": search.iterative_deepening_search,
     "sat": search.sat_solve,
+    "mcrw": search.monte_carlo_rrw_search,
 }
 
 
