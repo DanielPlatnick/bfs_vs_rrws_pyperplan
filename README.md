@@ -1,3 +1,13 @@
+# Pyperplan Extension
+
+This is my extension of **Pyperplan**, which includes an new package featuring novel
+random-walk based algorithms for heuristic search and planning. Random-
+walk based algorithms have great potential for escaping local minimas in 
+automated planning and search. This extension provides a code-base to
+experiment with different random-walk based algorithms on PDDL problems.
+
+Information about the authors of the original Pyperplan library can be found below.
+
 **Pyperplan** is a lightweight STRIPS planner written in Python.
 
 Please note that Pyperplan deliberately prefers clean code over fast
