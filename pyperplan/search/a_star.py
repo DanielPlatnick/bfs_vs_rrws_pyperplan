@@ -329,3 +329,145 @@ def monte_carlo_rrw_search(
     # logging.info("%d Nodes expanded" % expansions)
     print("Time limit reached, failed to find a solution")
     return None
+
+
+
+def ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len):
+    walk_len = 0
+    sampled_node = current_state
+    # print(f"current heuristic min: {heuristic(sampled_node)}")
+    restart_depth = max_walk_len    
+
+    while walk_len < restart_depth:    # restart hardcoded threshold t_g = 100
+
+        # print(f"random_walk: current h = {heuristic(sampled_node)}, walk length = {walk_len}")
+        sampled_state = sampled_node.state
+        # print("test", sampled_state)
+        sampled_actions = task.get_successor_states(sampled_state)
+        num_applicable_actions = len(sampled_actions)
+        
+        # print("Test", actions)
+        if num_applicable_actions == 0 or heuristic(sampled_node) == float("inf"):
+            return sampled_node, walk_len    # dead end situation
+        
+        random_num = random.randint(0,num_applicable_actions-1)     # perform random action selection
+        chosen_operator = sampled_actions[random_num][0]
+        chosen_succ_state = sampled_actions[random_num][1]
+        # action_sequence.append((chosen_operator, chosen_succ_state))
+
+        sampled_node = searchspace.make_child_node(sampled_node, chosen_operator, chosen_succ_state)    # the successor node object
+        sampled_node_state = sampled_node.state
+        h_succ = heuristic(sampled_node)
+        succ_actions = task.get_successor_states(sampled_node_state)
+
+        walk_len += 1   # setting counter for the restart threshold 
+
+        if h_succ < h_min or task.goal_reached(sampled_node_state):       # found lower h
+            # walk_len += 1
+            # print(f"h decreased, walk length: {walk_len}")
+            # print(f"current h = {heuristic(sampled_node)}, walk length = {walk_len}")
+
+            
+            return sampled_node, walk_len
+
+
+    print('test max walk len hit')
+    return current_state, walk_len       # max walk len hit
+
+
+def enforced_hillclimbing_random_walk_search(
+    task, heuristic, max_walk_len = 10, time_limit=.1666666, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
+):
+    """
+    Searches for a plan in the given task using monte carlo RRW search.
+
+    @param task The task to be solved
+    @param heuristic  A heuristic callable which computes the estimated steps
+                      from a search node to reach the goal.
+    @param make_open_entry An optional parameter to change the bahavior of the
+                           astar search. The callable should return a search
+                           node, possible values are ordered_node_astar,
+                           ordered_node_weighted_astar and
+                           ordered_node_greedy_best_first with obvious
+                           meanings.
+    """
+    from datetime import datetime
+
+    time_limit = 60 * time_limit   # get time limit in seconds
+    start_time = str(datetime.now()).split(':')[-2:]
+    minutes, seconds = map(float, start_time)
+    start_time = minutes * 60 + seconds
+
+    print(datetime.now())
+    end_time = (start_time) + time_limit
+    print(f'start time: {start_time}, end time: {end_time}')
+    print(f'time limit in seconds = {(end_time - start_time)}')
+    root = searchspace.make_root_node(task.initial_state)  # setting root node s_0
+
+    init_h = heuristic(root)  # setting initial heuristic
+    h_min = heuristic(root)
+
+    current_state = root  
+
+    logging.info("Initial h value: %f" % init_h)
+    
+    expansions = 0
+    num_walks = 1
+    search=True
+
+    while search: 
+        current_time = str(datetime.now()).split(':')[-2:]
+        print(current_time)
+        current_min, current_sec = map(float, current_time)
+        current_time = current_min * 60 + current_sec
+        print(f'current time: {current_time}, end time: {end_time}')
+
+        if current_time >= end_time:
+            print("Time limit reached, failed to find a solution")
+            return None
+
+        # print(f"walk number {num_walks}")
+        sampled_node, walk_len = ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len)   # sampled is a tuple containing (f, h, tiebreak, sampled_node). the sampled node itself is the last index
+        # print(f'walk length: {walk_len}')
+        expansions += walk_len     
+        # print(f"expansions = {expansions}")
+        h_sampled = heuristic(sampled_node)    # sampled_node is the node object
+        num_walks += 1
+
+        # print(f"monte_carlo_rrw_search: current h = {h_sampled}, walk length = {walk_len}")
+
+        sampled_state = sampled_node.state
+
+        num_applicable_actions = len(task.get_successor_states(sampled_state)) # checking for deadend
+        if num_applicable_actions == 0:
+            return None
+
+        if task.goal_reached(sampled_state):
+            sol = sampled_node.extract_solution()
+            # print(sol)
+            print(f"Goal reached on walk number: {num_walks-1}")
+            logging.info("Goal reached. Start extraction of solution.")
+            logging.info("%d Nodes expanded" % expansions)
+            # print([i[0] for i in action_sequence])        # checking the correct plan
+            print("SOLVED")
+            return sampled_node.extract_solution()  # TODO: look at details of extract_solution and chaining action sequences
+
+        elif num_applicable_actions > 0 and h_sampled < h_min:  # successfully found new lowest h state, update current state to new lowest h state
+
+            current_state = sampled_node
+            # print(sampled)
+            h_min = h_sampled
+            # walk_len = 0
+        
+
+                                                                # did not find new lowest h, increase timer and restart from current state
+        # num_walks += 1
+        # print(f"walk number {num_walks}")
+        print(f"current h = {heuristic(sampled_node)}, walk_length = {walk_len}")      # not
+
+
+    #     counter += 1
+    # logging.info("No operators left. Task unsolvable.")
+    # logging.info("%d Nodes expanded" % expansions)
+    print("Time limit reached, failed to find a solution")
+    return None
