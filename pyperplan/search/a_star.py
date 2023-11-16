@@ -376,7 +376,7 @@ def ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len):
 
 
 def enforced_hillclimbing_random_walk_search(
-    task, heuristic, max_walk_len = 10, time_limit=.1666666, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
+    task, heuristic, max_walk_len = 10, time_limit=10, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
 ):
     """
     Searches for a plan in the given task using monte carlo RRW search.
@@ -401,7 +401,8 @@ def enforced_hillclimbing_random_walk_search(
     print(datetime.now())
     end_time = (start_time) + time_limit
     print(f'start time: {start_time}, end time: {end_time}')
-    print(f'time limit in seconds = {(end_time - start_time)}')
+    print(f'time limit in minutes = {(end_time - start_time)/60}')
+    exit()
     root = searchspace.make_root_node(task.initial_state)  # setting root node s_0
 
     init_h = heuristic(root)  # setting initial heuristic

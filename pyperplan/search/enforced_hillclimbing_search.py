@@ -21,20 +21,23 @@ Implements the enforced hill climbing search algorithm.
 
 from collections import deque
 import logging
+import random
+from datetime import datetime
 
 from . import searchspace
 
 
-def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=False):
+def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=False, random_op_ordering=True):
     """
     Searches for a plan on the given task using enforced hill climbing and
     duplicate detection.
 
     @param planning_task: The planning task to solve.
     @return: The solution as a list of operators or None if no solution was
-    found. Note that enforced hill climbing is an incomplete algorith, so it
+    found. Note that enforced hill climbing is an incomplete algorithm, so it
     may fail to find a solution even though the task is solvable.
     """
+
     # counts the number of loops (only for printing)
     iteration = 0
     # fifo-queue storing the nodes which are next to explore
@@ -65,7 +68,16 @@ def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=Fal
             (rh, rplan) = heuristic.calc_h_with_plan(node)
             logging.debug("relaxed plan %s " % rplan)
 
-        for operator, successor_state in planning_task.get_successor_states(node.state):
+
+        not_shuffled = planning_task.get_successor_states(node.state)
+        shuffled_states = random.sample(not_shuffled, len(not_shuffled))
+
+        if random_op_ordering:
+            successor_states = shuffled_states
+        else:
+            successor_states = not_shuffled
+
+        for operator, successor_state in successor_states:
 
             # for the preferred operator version ignore all non preferred
             # operators
@@ -103,6 +115,9 @@ def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=Fal
                     break
                 else:
                     queue.append(successor_node)
+
+
+
     logging.info("Enforced hill climbing failed")
     logging.info("%d Nodes expanded" % len(visited))
     return None
