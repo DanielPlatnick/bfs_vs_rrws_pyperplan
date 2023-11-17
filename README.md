@@ -1,6 +1,6 @@
 # Pyperplan Extension
 
-This is my extension of **Pyperplan**, which includes an new package featuring novel
+This is my extension of **Pyperplan**, which includes a new package featuring novel
 random-walk based algorithms for heuristic search and planning. Random-
 walk based algorithms have great potential for escaping local minimas in 
 automated planning and search. This extension provides a code-base to
