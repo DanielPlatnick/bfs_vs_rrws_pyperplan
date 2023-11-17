@@ -22,7 +22,7 @@ def main():
 
     # Get the operating system name
     os_name = platform.system()
-    print(os_name)
+    # print(os_name)
     # exit()
 
     # Check if it's Windows
@@ -36,15 +36,8 @@ def main():
         print(f"Unknown operating system: {os_name}")
         exit()
 
-    print(domain_path, starting_problem_path)
-
-
-    filename_windows = os.path.basename(starting_problem_path)
 
     starting_problem = 'tasks ' + starting_problem_path.split('k')[-1].split('.')[0]
-
-    # starting_problem = 'tasks ' + starting_problem_path.split('/')[-1].split('.')[0].split('k')[-1]
-    print(starting_problem)
 
     # Define the command and arguments
 
@@ -56,7 +49,6 @@ def main():
     stopping_problem = starting_problem_number-1 + int(args.num_task_experiments)
 
 
-    print(starting_problem_number, stopping_problem)
     stopping_problem = starting_problem_number-1 + int(args.num_task_experiments)
 
 
@@ -141,8 +133,7 @@ def main():
 
 
         run_number = 0
-        # print("CHANGED task LOOOOOP")
-    # print(OUTPUT_dict)
+
 
     total_cases = 0
     cases_without_timeout = 0
@@ -156,15 +147,24 @@ def main():
 
     coverage = cases_without_timeout / total_cases if total_cases > 0 else 0
     OUTPUT_dict['task 1']['Overall experiment coverage'] = round(coverage, 3)
-    # print(cases_without_timeout, total_cases)
+
+
+    # # Extract task averages and calculate the overall average             ##maybe add code to get total experiment avg expansions
+    # task_averages = []
+    # for task_data in OUTPUT_dict.items():
+    #     task_average_expansions = task_data['average expansions']
+    #     task_averages.append(task_average_expansions)
+
+    # overall_average = sum(task_averages) / len(task_averages)
+    # print(overall_average)
+    # exit()
 
 
     OUTPUT_dict = str(OUTPUT_dict)
     OUTPUT_dict = json.loads(OUTPUT_dict.replace("'", "\""))
     OUTPUT_dict = OrderedDict(sorted(OUTPUT_dict.items(), key=lambda t: int(t[0].split(' ')[1])))
     yaml_string = yaml.dump(OUTPUT_dict)
-    # sorted_data = dict(sorted(yaml_string.items(), key=lambda item: int(item[0].split(' ')[1])))
-    # print(OUTPUT_dict)
+ 
     print('Experiment Output:\n')
 
     print(yaml_string)
@@ -184,8 +184,7 @@ def main():
     
 
     # print(f'domain: {domain}')
-    # print(OUTPUT_dict)
-    print('test')
+
 
 
 

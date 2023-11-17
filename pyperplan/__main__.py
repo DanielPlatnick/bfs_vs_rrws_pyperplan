@@ -19,11 +19,13 @@
 # TODO: Give searches and heuristics commandline options and reenable preferred
 # operators.
 
+import platform
 import argparse
 import logging
 import os
 import sys
 import re
+
 
 from pyperplan.planner import (
     find_domain,
@@ -91,7 +93,6 @@ def main():
 
 
     path_to_domain = os.path.dirname(args.domain)
-    print(path_to_domain)
     
     task_experiment_counter = 0
 
@@ -99,17 +100,12 @@ def main():
 
     problem_list = []
 
-    print(file_list)
     for file in file_list:
         if "task" in file and file.endswith("pddl"):
             problem_list.append(file)
     problem_list = sorted(problem_list)
-    print(problem_list)
     args.problem = os.path.abspath(args.problem)
-    print(args.problem)
 
-
-    args.problem = os.path.abspath(args.problem)
     if args.domain is None:
         args.domain = find_domain(args.problem)
     else:
@@ -117,20 +113,35 @@ def main():
         args.domain = find_domain(args.problem) # using the premade matching function for simplicity
 
     starting_index = int(re.findall(r'\d+', args.problem)[0]) - 1 # python indexing
-    current_problem = os.path.dirname(args.problem) + '/' + problem_list[starting_index]
+    print(args.problem)
+
+    os_name = platform.system()
+
+
+    if os_name == 'Windows':
+        current_problem = os.path.dirname(args.problem) + '\\' + problem_list[starting_index]
+
+    elif os_name == 'Darwin':
+        current_problem = os.path.dirname(args.problem) + '/' + problem_list[starting_index]
+
 
     if len(problem_list) - starting_index < int(args.num_task_experiments): # number of experiments possible given start of iteration
         print("error, requested too many task experiments")
         exit()
 
 
-    print(starting_index)
-
     for task_experiment in range(1,int(args.num_task_experiments)+1):
         print("task_splitter")
         print(f"CURRENTLY on task number: {task_experiment}")
-        current_problem = os.path.dirname(args.problem) + '/' + problem_list[starting_index]
+
+        if os_name == 'Windows':
+            current_problem = os.path.dirname(args.problem) + '\\' + problem_list[starting_index]
+
+        elif os_name == 'Darwin':
+            current_problem = os.path.dirname(args.problem) + '/' + problem_list[starting_index]
         current_prob = current_problem.rsplit('/', 1)[-1]
+
+
 
         for run in range(1,int(args.num_runs_per_task)+1):
             print("run_splitter")
@@ -148,8 +159,8 @@ def main():
             logging.info("using heuristic: %s" % (heuristic.__name__ if heuristic else None))
             use_preferred_ops = args.heuristic == "hffpo"
             solution = search_plan(
-                args.domain,
-                args.problem,
+                find_domain(current_problem),
+                current_problem,
                 search,
                 heuristic,
                 use_preferred_ops=use_preferred_ops,
