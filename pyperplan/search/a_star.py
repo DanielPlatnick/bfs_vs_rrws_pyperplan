@@ -22,6 +22,8 @@ Implements the A* (a-star) and weighted A* search algorithm.
 import heapq
 import logging
 import random
+from datetime import datetime
+
 
 from . import searchspace
 
@@ -391,7 +393,6 @@ def enforced_hillclimbing_random_walk_search(
                            ordered_node_greedy_best_first with obvious
                            meanings.
     """
-    from datetime import datetime
 
     time_limit = 60 * time_limit   # get time limit in seconds
     start_time = str(datetime.now()).split(':')[-2:]
@@ -402,7 +403,6 @@ def enforced_hillclimbing_random_walk_search(
     end_time = (start_time) + time_limit
     print(f'start time: {start_time}, end time: {end_time}')
     print(f'time limit in minutes = {(end_time - start_time)/60}')
-    exit()
     root = searchspace.make_root_node(task.initial_state)  # setting root node s_0
 
     init_h = heuristic(root)  # setting initial heuristic
@@ -418,10 +418,10 @@ def enforced_hillclimbing_random_walk_search(
 
     while search: 
         current_time = str(datetime.now()).split(':')[-2:]
-        print(current_time)
+        # print(current_time)
         current_min, current_sec = map(float, current_time)
         current_time = current_min * 60 + current_sec
-        print(f'current time: {current_time}, end time: {end_time}')
+        # print(f'current time: {current_time}, end time: {end_time}')
 
         if current_time >= end_time:
             print("Time limit reached, failed to find a solution")
@@ -464,7 +464,7 @@ def enforced_hillclimbing_random_walk_search(
                                                                 # did not find new lowest h, increase timer and restart from current state
         # num_walks += 1
         # print(f"walk number {num_walks}")
-        print(f"current h = {heuristic(sampled_node)}, walk_length = {walk_len}")      # not
+        print(f"current h of the sampled node = {heuristic(sampled_node)}, walk_length = {walk_len}")      # not
 
 
     #     counter += 1

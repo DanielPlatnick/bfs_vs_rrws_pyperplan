@@ -27,7 +27,7 @@ from datetime import datetime
 from . import searchspace
 
 
-def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=False, random_op_ordering=True):
+def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=False, random_op_ordering=True, time_limit=10):
     """
     Searches for a plan on the given task using enforced hill climbing and
     duplicate detection.
