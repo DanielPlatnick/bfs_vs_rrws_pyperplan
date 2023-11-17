@@ -27,7 +27,7 @@ from datetime import datetime
 from . import searchspace
 
 
-def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=False, random_op_ordering=True, time_limit=10):
+def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=False, random_op_ordering=True, time_limit=.1666666666667):
     """
     Searches for a plan on the given task using enforced hill climbing and
     duplicate detection.
@@ -38,6 +38,16 @@ def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=Fal
     may fail to find a solution even though the task is solvable.
     """
 
+    time_limit = 60 * time_limit   # get time limit in seconds
+    start_time = str(datetime.now()).split(':')[-2:]
+    minutes, seconds = map(float, start_time)
+    start_time = minutes * 60 + seconds
+
+    print(datetime.now())
+    end_time = (start_time) + time_limit
+    print(f'start time: {start_time}, end time: {end_time}')
+    print(f'time limit in minutes = {(end_time - start_time)/60}')
+    
     # counts the number of loops (only for printing)
     iteration = 0
     # fifo-queue storing the nodes which are next to explore
@@ -51,6 +61,18 @@ def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=Fal
     visited = set()
     while queue:
         iteration += 1
+
+        current_time = str(datetime.now()).split(':')[-2:]
+        # print(current_time)
+        current_min, current_sec = map(float, current_time)
+        current_time = current_min * 60 + current_sec
+        # print(f'current time: {current_time}, end time: {end_time}')
+
+        if current_time >= end_time:
+            print("Time limit reached, failed to find a solution")
+            return None
+
+
         # get the next node to explore
         node = queue.popleft()
         # remember the successor state

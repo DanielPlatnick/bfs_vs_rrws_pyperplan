@@ -441,6 +441,7 @@ def enforced_hillclimbing_random_walk_search(
 
         num_applicable_actions = len(task.get_successor_states(sampled_state)) # checking for deadend
         if num_applicable_actions == 0:
+            print('NO MORE ACTIONS AVAILABLE')
             return None
 
         if task.goal_reached(sampled_state):
