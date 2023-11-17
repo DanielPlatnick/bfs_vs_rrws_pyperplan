@@ -360,7 +360,6 @@ def ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len):
         sampled_node = searchspace.make_child_node(sampled_node, chosen_operator, chosen_succ_state)    # the successor node object
         sampled_node_state = sampled_node.state
         h_succ = heuristic(sampled_node)
-        succ_actions = task.get_successor_states(sampled_node_state)
 
         walk_len += 1   # setting counter for the restart threshold 
 
@@ -373,7 +372,7 @@ def ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len):
             return sampled_node, walk_len
 
 
-    print('test max walk len hit')
+    # print('test max walk len hit')
     return current_state, walk_len       # max walk len hit
 
 
@@ -441,7 +440,7 @@ def enforced_hillclimbing_random_walk_search(
 
         num_applicable_actions = len(task.get_successor_states(sampled_state)) # checking for deadend
         if num_applicable_actions == 0:
-            print('NO MORE ACTIONS AVAILABLE')
+            print('DEADEND: NO MORE ACTIONS AVAILABLE')
             return None
 
         if task.goal_reached(sampled_state):
@@ -465,7 +464,7 @@ def enforced_hillclimbing_random_walk_search(
                                                                 # did not find new lowest h, increase timer and restart from current state
         # num_walks += 1
         # print(f"walk number {num_walks}")
-        print(f"current h of the sampled node = {heuristic(sampled_node)}, walk_length = {walk_len}")      # not
+        # print(f"current h of the sampled node = {heuristic(sampled_node)}, walk_length = {walk_len}")      # not
 
 
     #     counter += 1

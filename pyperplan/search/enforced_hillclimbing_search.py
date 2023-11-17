@@ -27,7 +27,7 @@ from datetime import datetime
 from . import searchspace
 
 
-def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=False, random_op_ordering=True, time_limit=.1666666666667):
+def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=False, random_op_ordering=True, time_limit=10):
     """
     Searches for a plan on the given task using enforced hill climbing and
     duplicate detection.
@@ -47,6 +47,7 @@ def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=Fal
     end_time = (start_time) + time_limit
     print(f'start time: {start_time}, end time: {end_time}')
     print(f'time limit in minutes = {(end_time - start_time)/60}')
+
     
     # counts the number of loops (only for printing)
     iteration = 0
