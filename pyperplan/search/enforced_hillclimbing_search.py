@@ -22,7 +22,7 @@ Implements the enforced hill climbing search algorithm.
 from collections import deque
 import logging
 import random
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from . import searchspace
 
@@ -39,15 +39,11 @@ def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=Fal
     """
 
     time_limit = 60 * time_limit   # get time limit in seconds
-    start_time = str(datetime.now()).split(':')[-2:]
-    minutes, seconds = map(float, start_time)
-    start_time = minutes * 60 + seconds
 
-    print(datetime.now())
-    end_time = (start_time) + time_limit
-    print(f'start time: {start_time}, end time: {end_time}')
-    print(f'time limit in minutes = {(end_time - start_time)/60}')
-
+    start_time = datetime.now()
+   
+    # exit()
+    print(f'start time: {start_time}, time limit in seconds: {time_limit}')
     
     # counts the number of loops (only for printing)
     iteration = 0
@@ -62,14 +58,11 @@ def enforced_hillclimbing_search(planning_task, heuristic, use_preferred_ops=Fal
     visited = set()
     while queue:
         iteration += 1
-
-        current_time = str(datetime.now()).split(':')[-2:]
-        # print(current_time)
-        current_min, current_sec = map(float, current_time)
-        current_time = current_min * 60 + current_sec
+        current_time = datetime.now()
         # print(f'current time: {current_time}, end time: {end_time}')
+        elapsed_time = current_time - start_time
 
-        if current_time >= end_time:
+        if elapsed_time.total_seconds() >= time_limit:
             print("Time limit reached, failed to find a solution")
             return None
 

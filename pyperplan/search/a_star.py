@@ -377,7 +377,7 @@ def ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len):
 
 
 def enforced_hillclimbing_random_walk_search(
-    task, heuristic, max_walk_len = 10, time_limit=0.1666666667, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
+    task, heuristic, max_walk_len = 10, time_limit=10, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
 ):
     """
     Searches for a plan in the given task using monte carlo RRW search.
@@ -395,19 +395,9 @@ def enforced_hillclimbing_random_walk_search(
 
     time_limit = 60 * time_limit   # get time limit in seconds
     start_time = datetime.now()
-    # start_time = 
-
-
-    # temp_start_time = str(datetime.now()).split(':')[-2:]
-    # minutes, seconds = map(float, temp_start_time)
-    # temp_start_time = minutes * 60 + seconds
-
-    # # print(datetime.now())
-    # end_time = (temp_start_time) + time_limit
-    # print(end_time)
+   
     # exit()
     print(f'start time: {start_time}, time limit in seconds: {time_limit}')
-    # print(f'time limit in minutes = {(end_time - start_time)/60}')
     root = searchspace.make_root_node(task.initial_state)  # setting root node s_0
 
     init_h = heuristic(root)  # setting initial heuristic
@@ -424,11 +414,6 @@ def enforced_hillclimbing_random_walk_search(
     while search: 
         current_time = datetime.now()
         elapsed_time = current_time - start_time
-
-        # print(current_time)
-        # current_min, current_sec = map(float, current_time)
-        # current_time = current_min * 60 + current_sec
-        # print(f'current time: {current_time}, end time: {end_time}')
 
         if elapsed_time.total_seconds() >= time_limit:
             print("Time limit reached, failed to find a solution")
@@ -460,34 +445,15 @@ def enforced_hillclimbing_random_walk_search(
         if num_applicable_actions == 0:
             print('DEADEND: NO MORE ACTIONS AVAILABLE')
             return None
-        # for action in task.get_successor_states(sampled_state):
-        #     print(heuristic(action))
-        # exit()
-
-        if task.goal_reached(sampled_state):
-            sol = sampled_node.extract_solution()
-            # print(sol)
-            print(f"Goal reached on walk number: {num_walks-1}")
-            logging.info("Goal reached. Start extraction of solution.")
-            logging.info("%d Nodes expanded" % expansions)
-            # print([i[0] for i in action_sequence])        # checking the correct plan
-            print("SOLVED")
-            return sampled_node.extract_solution()  # TODO: look at details of extract_solution and chaining action sequences
 
         elif num_applicable_actions > 0 and h_sampled < h_min:  # successfully found new lowest h state, update current state to new lowest h state
 
             current_state = sampled_node
             # print(sampled)
             h_min = h_sampled
-            # walk_len = 0
-        
 
                                                                 # did not find new lowest h, increase timer and restart from current state
         # num_walks += 1
-        # print(f"walk number {num_walks}")
-        # print(f"current h of the sampled node = {heuristic(sampled_node)}, walk_length = {walk_len}")      # not
-
-
     #     counter += 1
     # logging.info("No operators left. Task unsolvable.")
     # logging.info("%d Nodes expanded" % expansions)
