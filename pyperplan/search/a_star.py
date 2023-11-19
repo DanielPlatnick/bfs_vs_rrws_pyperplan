@@ -22,7 +22,7 @@ Implements the A* (a-star) and weighted A* search algorithm.
 import heapq
 import logging
 import random
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 from . import searchspace
@@ -377,7 +377,7 @@ def ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len):
 
 
 def enforced_hillclimbing_random_walk_search(
-    task, heuristic, max_walk_len = 10, time_limit=10, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
+    task, heuristic, max_walk_len = 10, time_limit=0.1666666667, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
 ):
     """
     Searches for a plan in the given task using monte carlo RRW search.
@@ -394,14 +394,20 @@ def enforced_hillclimbing_random_walk_search(
     """
 
     time_limit = 60 * time_limit   # get time limit in seconds
-    start_time = str(datetime.now()).split(':')[-2:]
-    minutes, seconds = map(float, start_time)
-    start_time = minutes * 60 + seconds
+    start_time = datetime.now()
+    # start_time = 
 
-    print(datetime.now())
-    end_time = (start_time) + time_limit
-    print(f'start time: {start_time}, end time: {end_time}')
-    print(f'time limit in minutes = {(end_time - start_time)/60}')
+
+    # temp_start_time = str(datetime.now()).split(':')[-2:]
+    # minutes, seconds = map(float, temp_start_time)
+    # temp_start_time = minutes * 60 + seconds
+
+    # # print(datetime.now())
+    # end_time = (temp_start_time) + time_limit
+    # print(end_time)
+    # exit()
+    print(f'start time: {start_time}, time limit in seconds: {time_limit}')
+    # print(f'time limit in minutes = {(end_time - start_time)/60}')
     root = searchspace.make_root_node(task.initial_state)  # setting root node s_0
 
     init_h = heuristic(root)  # setting initial heuristic
@@ -416,13 +422,15 @@ def enforced_hillclimbing_random_walk_search(
     search=True
 
     while search: 
-        current_time = str(datetime.now()).split(':')[-2:]
+        current_time = datetime.now()
+        elapsed_time = current_time - start_time
+
         # print(current_time)
-        current_min, current_sec = map(float, current_time)
-        current_time = current_min * 60 + current_sec
+        # current_min, current_sec = map(float, current_time)
+        # current_time = current_min * 60 + current_sec
         # print(f'current time: {current_time}, end time: {end_time}')
 
-        if current_time >= end_time:
+        if elapsed_time.total_seconds() >= time_limit:
             print("Time limit reached, failed to find a solution")
             return None
 
@@ -434,14 +442,27 @@ def enforced_hillclimbing_random_walk_search(
         h_sampled = heuristic(sampled_node)    # sampled_node is the node object
         num_walks += 1
 
-        # print(f"monte_carlo_rrw_search: current h = {h_sampled}, walk length = {walk_len}")
+        print(f"monte_carlo_rrw_search: current h = {h_sampled}, walk length = {walk_len}")
 
         sampled_state = sampled_node.state
+
+        if task.goal_reached(sampled_state):
+            sol = sampled_node.extract_solution()
+            # print(sol)
+            print(f"Goal reached on walk number: {num_walks-1}")
+            logging.info("Goal reached. Start extraction of solution.")
+            logging.info("%d Nodes expanded" % expansions)
+            # print([i[0] for i in action_sequence])        # checking the correct plan
+            print("SOLVED")
+            return sampled_node.extract_solution()  # TODO: look at details of extract_solution and chaining action sequences
 
         num_applicable_actions = len(task.get_successor_states(sampled_state)) # checking for deadend
         if num_applicable_actions == 0:
             print('DEADEND: NO MORE ACTIONS AVAILABLE')
             return None
+        # for action in task.get_successor_states(sampled_state):
+        #     print(heuristic(action))
+        # exit()
 
         if task.goal_reached(sampled_state):
             sol = sampled_node.extract_solution()
