@@ -172,7 +172,7 @@ def main():
 
     if os_name == 'Windows':
         output_path = 'benchmarks\\experiment_output'
-        with open(output_path + '\\' + args.algo + '_' + domain + f'_tasks{starting_problem_number}-{stopping_problem}' +  '.yaml', 'w') as file:
+        with open(output_path + '\\' + 'luby_' + args.algo + '_' + domain + f'_tasks{starting_problem_number}-{stopping_problem}' +  '.yaml', 'w') as file:
             file.write(yaml_string)
 
     elif os_name == 'Darwin':

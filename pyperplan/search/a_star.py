@@ -27,6 +27,28 @@ from datetime import datetime, timedelta
 
 from . import searchspace
 
+def luby_sequence(n):
+    sequence = [1]
+    counts = {1: 1}
+    
+    for i in range(1, n):
+        last_term = sequence[-1]
+        
+        if counts[last_term] % 2 == 0:
+            next_term = 2 * last_term
+        else:
+            next_term = 1
+        
+        sequence.append(next_term)
+        
+        if next_term in counts:
+            counts[next_term] += 1
+        else:
+            counts[next_term] = 1
+    
+    return sequence
+
+
 
 def ordered_node_astar(node, h, node_tiebreaker):
     """
@@ -349,7 +371,9 @@ def ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len):
         num_applicable_actions = len(sampled_actions)
         
         # print("Test", actions)
+        
         if num_applicable_actions == 0 or heuristic(sampled_node) == float("inf"):
+            print('deadend encountered')
             return sampled_node, walk_len    # dead end situation
         
         random_num = random.randint(0,num_applicable_actions-1)     # perform random action selection
@@ -376,11 +400,13 @@ def ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len):
     return current_state, walk_len       # max walk len hit
 
 
+        ### Generating 2 million elements of luby for 75 runs takes 20 seconds
+
 def enforced_hillclimbing_random_walk_search(
-    task, heuristic, max_walk_len = 10, time_limit=10, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
+    task, heuristic, max_walk_len = 10, restart_sequence=luby_sequence(2000000), sequence_scale=None, time_limit=10, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
 ):
     """
-    Searches for a plan in the given task using monte carlo RRW search.
+    Searches for a plan in the given task using enforced hillclimbing random walk search search.
 
     @param task The task to be solved
     @param heuristic  A heuristic callable which computes the estimated steps
@@ -392,11 +418,17 @@ def enforced_hillclimbing_random_walk_search(
                            ordered_node_greedy_best_first with obvious
                            meanings.
     """
+    sequence_used = False
+    if restart_sequence != None:
+        if type(restart_sequence) != type(list()):
+            print('Error: Invalid restart sequence type. This function only accepts lists as restart sequences.')
+            return None
+        sequence_used = True
+        sequence_index = 0
+
 
     time_limit = 60 * time_limit   # get time limit in seconds
     start_time = datetime.now()
-   
-    # exit()
     print(f'start time: {start_time}, time limit in seconds: {time_limit}')
     root = searchspace.make_root_node(task.initial_state)  # setting root node s_0
 
@@ -412,12 +444,21 @@ def enforced_hillclimbing_random_walk_search(
     search=True
 
     while search: 
+        
         current_time = datetime.now()
         elapsed_time = current_time - start_time
-
         if elapsed_time.total_seconds() >= time_limit:
             print("Time limit reached, failed to find a solution")
             return None
+
+        current_max_walk_len = max_walk_len
+        if sequence_used == True:
+            max_walk_len = restart_sequence[sequence_index]
+            print(current_max_walk_len)
+            print(f'expansions = {expansions}')
+            sequence_index += 1
+
+
 
         # print(f"walk number {num_walks}")
         sampled_node, walk_len = ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len)   # sampled is a tuple containing (f, h, tiebreak, sampled_node). the sampled node itself is the last index
