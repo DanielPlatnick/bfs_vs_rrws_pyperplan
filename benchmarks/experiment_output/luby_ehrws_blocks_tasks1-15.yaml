@@ -1,0 +1,257 @@
+!!python/object/apply:collections.OrderedDict
+- - - task 1
+    - Overall experiment coverage: 1.0
+      average expansions: 463.6
+      run 1:
+        expansions: '252'
+        plan length: '14'
+      run 2:
+        expansions: '275'
+        plan length: '10'
+      run 3:
+        expansions: '44'
+        plan length: '10'
+      run 4:
+        expansions: '1713'
+        plan length: '120'
+      run 5:
+        expansions: '34'
+        plan length: '8'
+  - - task 2
+    - average expansions: 246.6
+      run 1:
+        expansions: '189'
+        plan length: '18'
+      run 2:
+        expansions: '174'
+        plan length: '14'
+      run 3:
+        expansions: '588'
+        plan length: '64'
+      run 4:
+        expansions: '57'
+        plan length: '10'
+      run 5:
+        expansions: '225'
+        plan length: '40'
+  - - task 3
+    - average expansions: 454.4
+      run 1:
+        expansions: '561'
+        plan length: '12'
+      run 2:
+        expansions: '1204'
+        plan length: '24'
+      run 3:
+        expansions: '160'
+        plan length: '18'
+      run 4:
+        expansions: '34'
+        plan length: '8'
+      run 5:
+        expansions: '313'
+        plan length: '16'
+  - - task 4
+    - average expansions: 643.0
+      run 1:
+        expansions: '1133'
+        plan length: '76'
+      run 2:
+        expansions: '642'
+        plan length: '50'
+      run 3:
+        expansions: '586'
+        plan length: '72'
+      run 4:
+        expansions: '581'
+        plan length: '46'
+      run 5:
+        expansions: '273'
+        plan length: '20'
+  - - task 5
+    - average expansions: 2355.8
+      run 1:
+        expansions: '3726'
+        plan length: '112'
+      run 2:
+        expansions: '960'
+        plan length: '34'
+      run 3:
+        expansions: '2394'
+        plan length: '100'
+      run 4:
+        expansions: '2903'
+        plan length: '32'
+      run 5:
+        expansions: '1796'
+        plan length: '74'
+  - - task 6
+    - average expansions: 3228.8
+      run 1:
+        expansions: '9378'
+        plan length: '250'
+      run 2:
+        expansions: '1442'
+        plan length: '54'
+      run 3:
+        expansions: '776'
+        plan length: '44'
+      run 4:
+        expansions: '2179'
+        plan length: '130'
+      run 5:
+        expansions: '2369'
+        plan length: '90'
+  - - task 7
+    - average expansions: 2700.6
+      run 1:
+        expansions: '6007'
+        plan length: '116'
+      run 2:
+        expansions: '2446'
+        plan length: '96'
+      run 3:
+        expansions: '1787'
+        plan length: '48'
+      run 4:
+        expansions: '1636'
+        plan length: '58'
+      run 5:
+        expansions: '1627'
+        plan length: '78'
+  - - task 8
+    - average expansions: 5440.0
+      run 1:
+        expansions: '425'
+        plan length: '56'
+      run 2:
+        expansions: '15083'
+        plan length: '78'
+      run 3:
+        expansions: '3899'
+        plan length: '88'
+      run 4:
+        expansions: '6154'
+        plan length: '436'
+      run 5:
+        expansions: '1639'
+        plan length: '32'
+  - - task 9
+    - average expansions: 5769.6
+      run 1:
+        expansions: '1962'
+        plan length: '80'
+      run 2:
+        expansions: '16181'
+        plan length: '82'
+      run 3:
+        expansions: '3134'
+        plan length: '78'
+      run 4:
+        expansions: '5200'
+        plan length: '464'
+      run 5:
+        expansions: '2371'
+        plan length: '88'
+  - - task 10
+    - average expansions: 10849.6
+      run 1:
+        expansions: '1002'
+        plan length: '116'
+      run 2:
+        expansions: '39941'
+        plan length: '382'
+      run 3:
+        expansions: '784'
+        plan length: '130'
+      run 4:
+        expansions: '1488'
+        plan length: '90'
+      run 5:
+        expansions: '11033'
+        plan length: '200'
+  - - task 11
+    - average expansions: 6644.4
+      run 1:
+        expansions: '12882'
+        plan length: '286'
+      run 2:
+        expansions: '6033'
+        plan length: '176'
+      run 3:
+        expansions: '5910'
+        plan length: '426'
+      run 4:
+        expansions: '5512'
+        plan length: '126'
+      run 5:
+        expansions: '2885'
+        plan length: '56'
+  - - task 12
+    - average expansions: 26068.6
+      run 1:
+        expansions: '4252'
+        plan length: '80'
+      run 2:
+        expansions: '6057'
+        plan length: '122'
+      run 3:
+        expansions: '8929'
+        plan length: '514'
+      run 4:
+        expansions: '910'
+        plan length: '68'
+      run 5:
+        expansions: '110195'
+        plan length: '184'
+  - - task 13
+    - average expansions: 126543.2
+      run 1:
+        expansions: '52862'
+        plan length: '400'
+      run 2:
+        expansions: '5251'
+        plan length: '204'
+      run 3:
+        expansions: '455376'
+        plan length: '130'
+      run 4:
+        expansions: '25547'
+        plan length: '1922'
+      run 5:
+        expansions: '93680'
+        plan length: '698'
+  - - task 14
+    - average expansions: 15437.0
+      run 1:
+        expansions: '1806'
+        plan length: '68'
+      run 2:
+        expansions: '43982'
+        plan length: '304'
+      run 3:
+        expansions: '3226'
+        plan length: '42'
+      run 4:
+        expansions: '4114'
+        plan length: '90'
+      run 5:
+        expansions: '24057'
+        plan length: '478'
+  - - task 15
+    - average expansions: 9135.0
+      run 1:
+        expansions: '3587'
+        plan length: '64'
+      run 2:
+        expansions: '14045'
+        plan length: '148'
+      run 3:
+        expansions: '16019'
+        plan length: '146'
+      run 4:
+        expansions: '8474'
+        plan length: '130'
+      run 5:
+        expansions: '3550'
+        plan length: '126'

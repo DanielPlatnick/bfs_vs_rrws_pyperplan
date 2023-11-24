@@ -421,8 +421,7 @@ def enforced_hillclimbing_random_walk_search(
     sequence_used = False
     if restart_sequence != None:
         if type(restart_sequence) != type(list()):
-            print('Error: Invalid restart sequence type. This function only accepts lists as restart sequences.')
-            return None
+            exit('Error: Invalid restart sequence type. This function only accepts lists as restart sequences.')
         sequence_used = True
         sequence_index = 0
 
@@ -458,6 +457,9 @@ def enforced_hillclimbing_random_walk_search(
             print(f'expansions = {expansions}')
             sequence_index += 1
 
+        # print(current_max_walk_len)
+        # print(f'expansions = {expansions}')
+
 
 
         # print(f"walk number {num_walks}")
@@ -468,7 +470,7 @@ def enforced_hillclimbing_random_walk_search(
         h_sampled = heuristic(sampled_node)    # sampled_node is the node object
         num_walks += 1
 
-        print(f"monte_carlo_rrw_search: current h = {h_sampled}, walk length = {walk_len}")
+        print(f"current h = {h_sampled}, walk length = {walk_len}")
 
         sampled_state = sampled_node.state
 
