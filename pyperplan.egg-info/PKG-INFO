@@ -24,6 +24,16 @@ Description-Content-Type: text/markdown
 License-File: COPYING
 Requires-Dist: wheel
 
+# Pyperplan Extension
+
+This is my extension of **Pyperplan**, which includes a new package featuring novel
+random-walk based algorithms for heuristic search and planning. Random-
+walk based algorithms have great potential for escaping local minimas in 
+automated planning and search. This extension provides a code-base to
+experiment with different random-walk based algorithms on PDDL problems.
+
+Information about the authors of the original Pyperplan library can be found below.
+
 **Pyperplan** is a lightweight STRIPS planner written in Python.
 
 Please note that Pyperplan deliberately prefers clean code over fast
@@ -32,7 +42,7 @@ you use it for paper experiments, please state clearly that Pyperplan
 does not offer state-of-the-art performance.
 
 It was developed during the planning practical course at
-Albert-Ludwigs-UniversitÃ¤t Freiburg during the winter term 2010/2011 and
+Albert-Ludwigs-Universität Freiburg during the winter term 2010/2011 and
 is published under the terms of the GNU General Public License 3
 (GPLv3).
 
@@ -96,16 +106,16 @@ The original authors of Pyperplan are, in alphabetical order:
 
   - Yusra Alkhazraji
   - Matthias Frorath
-  - Markus GrÃ¼tzner
+  - Markus Grützner
   - Thomas Liebetraut
   - Manuela Ortlieb
   - Jendrik Seipp
   - Tobias Springenberg
   - Philip Stahl
-  - Jan WÃ¼lfing
+  - Jan Wülfing
 
 The instructors of the course in which Pyperplan was created were Malte
-Helmert and Robert MattmÃ¼ller.
+Helmert and Robert Mattmüller.
 
 For questions and feedback, please start a new
 [discussion](https://github.com/aibasel/pyperplan/discussions).

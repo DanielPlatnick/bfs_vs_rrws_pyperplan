@@ -186,10 +186,5 @@ def main():
     # print(f'domain: {domain}')
 
 
-
-
-
-
-
 if __name__ == "__main__":
     main()
