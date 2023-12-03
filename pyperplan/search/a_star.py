@@ -16,18 +16,19 @@
 #
 
 """
-Implements the A* (a-star) and weighted A* search algorithm.
+Implements the A* (a-star) and weighted A* search algorithm. Includes multiple new random-walk based algorithms not included in the base version of Pyperplan.
 """
 
 import heapq
 import logging
 import random
 from datetime import datetime, timedelta
+from sympy import divisor_count
 
 
 from . import searchspace
 
-def luby_sequence(n):
+def luby_sequence(n=20000000, scale=1):
     sequence = [1]
     counts = {1: 1}
     
@@ -48,6 +49,11 @@ def luby_sequence(n):
     
     return sequence
 
+def walsh_sequence(n=1000000, scale=2):
+    sequence = [i for i in range(1, n) if not i % divisor_count(i)]
+    return sequence
+
+    # return [term * scale for term in sequence]
 
 
 def ordered_node_astar(node, h, node_tiebreaker):
@@ -403,7 +409,7 @@ def ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len):
         ### Generating 2 million elements of luby for 75 runs takes 20 seconds
 
 def enforced_hillclimbing_random_walk_search(
-    task, heuristic, max_walk_len = 10, restart_sequence=luby_sequence(2000000), sequence_scale=None, time_limit=10, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
+    task, heuristic, max_walk_len = 10, restart_sequence=luby_sequence(2000000), sequence_scale=1, time_limit=10, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
 ):
     """
     Searches for a plan in the given task using enforced hillclimbing random walk search search.
@@ -452,7 +458,7 @@ def enforced_hillclimbing_random_walk_search(
 
         current_max_walk_len = max_walk_len
         if sequence_used == True:
-            max_walk_len = restart_sequence[sequence_index]
+            max_walk_len = restart_sequence[sequence_index] * sequence_scale
             print(current_max_walk_len)
             print(f'expansions = {expansions}')
             sequence_index += 1
@@ -465,6 +471,7 @@ def enforced_hillclimbing_random_walk_search(
         # print(f"walk number {num_walks}")
         sampled_node, walk_len = ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len)   # sampled is a tuple containing (f, h, tiebreak, sampled_node). the sampled node itself is the last index
         # print(f'walk length: {walk_len}')
+        print(f'max walk length: {max_walk_len}')
         expansions += walk_len     
         # print(f"expansions = {expansions}")
         h_sampled = heuristic(sampled_node)    # sampled_node is the node object
