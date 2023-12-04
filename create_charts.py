@@ -1,6 +1,5 @@
 import os
 import yaml
-import pprint
 import collections
 
 """
@@ -22,30 +21,77 @@ yaml.add_constructor('tag:yaml.org,2002:python/object/apply:collections.OrderedD
 
 yaml_dir = 'benchmarks/experiment_output/'
 
-yaml_dir_list = os.listdir(yaml_dir)
+def extract_run_times(yaml_dir):
+    yaml_dir_list = sorted(os.listdir(yaml_dir))
+    ehrws_run_times_vector = []
+    ehs_run_times_vector = []
 
-curr_yaml_file = yaml_dir + yaml_dir_list[1]
-# Open the file
-print(curr_yaml_file)
+    for yaml_output in yaml_dir_list:
 
-with open(curr_yaml_file, 'r') as stream:
-    curr_file_output = yaml.load(stream, Loader=yaml.FullLoader)[0]
+        curr_yaml_file = yaml_dir + yaml_output
+
+        if 'ehs' in yaml_output:
+            algorithm_name = 'ehs'
+        elif 'ehrws' in yaml_output:
+            algorithm_name = 'ehrws'
+
+        with open(curr_yaml_file, 'r') as stream:
+            curr_file_output = yaml.load(stream, Loader=yaml.FullLoader)[0]
+
+        task_name = curr_yaml_file.split('_')[-2]
+        print(task_name)
+        run_times_vector = []
+        domain_coverage = curr_file_output[0][1]['Overall experiment coverage']
+
+        for task_data in curr_file_output:
+            # print(task_data)
+            task_dict = task_data[1]
+            
+            task_avg_expansions = task_dict['average expansions']
+            task_number = int(task_data[0].split(' ')[-1])
+            run_info = []
+            run_expansions = []
+            run_plan_length = []
+
+            ### Appending run dict info is broken
+            for key, value in task_dict.items():
+                # print(key, value)
+                if 'run' in key:
+                    run_expansions.append(value['expansions'])
+                    run_times_vector.append(value['expansions'])
+
+                # Adjust code to get plan lengths
+                # if 'run' in key:
+                #     print(curr_yaml_file)
+                #     run_plan_length.append(value['plan length'])
+
+                # run_info.append((run_expansions, run_plan_length))
+            # print(run_times_vector)
+            # exit('debug')
+
+        curr_algorithm = curr_yaml_file.split('/')[-1].split('_')[0]
+        # print(curr_algorithm)
+
+        if algorithm_name == 'ehs':
+            for run_time in run_times_vector:
+                ehs_run_times_vector.append(run_time)
+
+        if algorithm_name == 'ehrws':
+            for run_time in run_times_vector:
+                ehrws_run_times_vector.append(run_time)
+
+    assert len(ehs_run_times_vector) == len(ehrws_run_times_vector)
+
+    # replacing time-outs with infinity for charts
+    ehrws_run_times_vector = [float('inf') if element == 'timed out' else element for element in ehrws_run_times_vector]
+    ehs_run_times_vector = [float('inf') if element == 'timed out' else element for element in ehs_run_times_vector]
+
+    return ehs_run_times_vector, ehrws_run_times_vector
 
 
-curr_file_name = curr_yaml_file.split('_')[-2]
+ehs_runs, ehrws_runs = extract_run_times(yaml_dir=yaml_dir)
 
-
-for task_data in curr_file_output:
-    task_dict = task_data[1]
-    task_coverage = task_dict['Overall experiment coverage']
-    task_avg_expansions = task_dict['average expansions']
-
-    run_info = []
-    for key, value in task_dict.items():
-        if 'run' in key:
-            run_info.append(value)
-        
-    print(run_info)
-    print(curr_file_name)
-    break
+print(ehs_runs)
+print(ehrws_runs)
+print(len(ehrws_runs), len(ehs_runs))
 
