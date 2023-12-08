@@ -1,0 +1,7 @@
+!!python/object/apply:collections.OrderedDict
+- - - task 1
+    - Overall experiment coverage: 1.0
+      average expansions: 112.0
+      run 1:
+        expansions: '112'
+        plan length: '16'

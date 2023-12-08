@@ -25,7 +25,7 @@ def main():
     # print(os_name)
     # exit()
 
-    # Check if it's Windows
+    # Check if it's Windows or mac and set path to domain file
     if os_name == 'Windows':
         domain_path = "benchmarks\\" + domain + "\\domain01.pddl"
         starting_problem_path = "benchmarks\\" + domain + "\\task01.pddl"
@@ -177,7 +177,7 @@ def main():
 
     elif os_name == 'Darwin':
         output_path = 'benchmarks/experiment_output'
-        with open(output_path + '/' + args.algo + '_' + domain + f'_tasks{starting_problem_number}-{stopping_problem}' +  '.yaml', 'w') as file:
+        with open(output_path + '/' + 'luby_' + args.algo + '_' + domain + f'_tasks{starting_problem_number}-{stopping_problem}' +  '.yaml', 'w') as file:
             file.write(yaml_string)
 
 
