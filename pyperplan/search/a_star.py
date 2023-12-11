@@ -25,7 +25,6 @@ import random
 from datetime import datetime, timedelta
 from sympy import divisor_count
 
-
 from . import searchspace
 
 def luby_sequence(n=20000000, scale=1):
@@ -49,7 +48,7 @@ def luby_sequence(n=20000000, scale=1):
     
     return sequence
 
-def walsh_sequence(n=1000000, scale=2):
+def walsh_sequence(n=1000000, scale=1):
     sequence = [i for i in range(1, n) if not i % divisor_count(i)]
     return sequence
 
@@ -406,10 +405,10 @@ def ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len):
     return current_state, walk_len       # max walk len hit
 
 
-        ### Generating 2 million elements of luby for 75 runs takes 20 seconds
+        ### Generating 20 million elements of luby for 75 runs takes 20 seconds
 
 def enforced_hillclimbing_random_walk_search(
-    task, heuristic, max_walk_len = 10, restart_sequence=luby_sequence(2000000), sequence_scale=1, time_limit=10, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
+    task, heuristic, max_walk_len = 10, restart_sequence=luby_sequence(5000000), sequence_scale=1, time_limit=10, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
 ):
     """
     Searches for a plan in the given task using enforced hillclimbing random walk search search.
