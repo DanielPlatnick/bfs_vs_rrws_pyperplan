@@ -408,7 +408,7 @@ def ehs_random_walk(task, heuristic, current_state, h_min, max_walk_len):
         ### Generating 20 million elements of luby for 75 runs takes 20 seconds
 
 def enforced_hillclimbing_random_walk_search(
-    task, heuristic, max_walk_len = 10, restart_sequence=luby_sequence(5000000), sequence_scale=1, time_limit=10, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
+    task, heuristic, max_walk_len = 10, restart_sequence=None, sequence_scale=2, time_limit=10, make_open_entry=ordered_node_greedy_best_first, use_relaxed_plan=False,
 ):
     """
     Searches for a plan in the given task using enforced hillclimbing random walk search search.

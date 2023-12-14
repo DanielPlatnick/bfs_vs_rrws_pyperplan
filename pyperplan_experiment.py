@@ -24,20 +24,22 @@ def main():
     domain_list.remove('README.md')
     domain_list.remove('experiment_output')
     domain_list.remove('depot')
-    domain_list.remove('blocks')
-    domain_list.remove('movie')
-    domain_list.remove('freecell') 
-    domain_list.remove('parcprinter')
-    domain_list.remove('tpp')
-    domain_list.remove('transport')
-    domain_list.remove('woodworking')
-    domain_list.remove('pegsol')
-    domain_list.remove('elevators')
-    domain_list.remove('airport')
-    domain_list.remove('zenotravel')
-    domain_list.remove('psr-small')
-    domain_list.remove('gripper')
-    domain_list.remove('scanalyzer')
+    # domain_list.remove('freecell') 
+    # domain_list.remove('parcprinter')
+
+
+    # domain_list.remove('blocks')
+    # domain_list.remove('movie')
+    # domain_list.remove('tpp')
+    # domain_list.remove('transport')
+    # domain_list.remove('woodworking')
+    # domain_list.remove('pegsol')
+    # domain_list.remove('elevators')
+    # domain_list.remove('airport')
+    # domain_list.remove('zenotravel')
+    # domain_list.remove('psr-small')
+    # domain_list.remove('gripper')
+    # domain_list.remove('scanalyzer')
   
 
     # if want to do just 1 experiment, either remove loop or just set loop to 1 iteration and specify domain file
@@ -205,7 +207,7 @@ def main():
 
         elif os_name == 'Darwin':
             output_path = 'benchmarks/experiment_output'
-            # with open(output_path + '/' + 'luby_' + args.algo + '_' + domain + f'_tasks{starting_problem_number}-{stopping_problem}' +  '.yaml', 'w') as file:
+            # with open(output_path + '/' + 'lubyd2_' + args.algo + '_' + domain + f'_tasks{starting_problem_number}-{stopping_problem}' +  '.yaml', 'w') as file:
             with open(output_path + '/'  + args.algo + '_' + domain + f'_tasks{starting_problem_number}-{stopping_problem}' +  '.yaml', 'w') as file:
                 file.write(yaml_string)
 
