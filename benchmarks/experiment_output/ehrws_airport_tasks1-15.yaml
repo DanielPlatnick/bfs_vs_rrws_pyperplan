@@ -1,0 +1,219 @@
+!!python/object/apply:collections.OrderedDict
+- - - task 1
+    - Overall experiment coverage: 0.493
+      average expansions: 14.67
+      run 1:
+        expansions: timed out
+      run 2:
+        expansions: '18'
+        plan length: '8'
+      run 3:
+        expansions: timed out
+      run 4:
+        expansions: '18'
+        plan length: '8'
+      run 5:
+        expansions: '8'
+        plan length: '8'
+  - - task 2
+    - average expansions: 16.5
+      run 1:
+        expansions: timed out
+      run 2:
+        expansions: '21'
+        plan length: '9'
+      run 3:
+        expansions: timed out
+      run 4:
+        expansions: timed out
+      run 5:
+        expansions: '12'
+        plan length: '9'
+  - - task 3
+    - average expansions: 32.8
+      run 1:
+        expansions: '20'
+        plan length: '17'
+      run 2:
+        expansions: '19'
+        plan length: '17'
+      run 3:
+        expansions: '60'
+        plan length: '17'
+      run 4:
+        expansions: '35'
+        plan length: '19'
+      run 5:
+        expansions: '30'
+        plan length: '19'
+  - - task 4
+    - average expansions: 21.0
+      run 1:
+        expansions: '23'
+        plan length: '20'
+      run 2:
+        expansions: '20'
+        plan length: '20'
+      run 3:
+        expansions: '20'
+        plan length: '20'
+      run 4:
+        expansions: '22'
+        plan length: '20'
+      run 5:
+        expansions: '20'
+        plan length: '20'
+  - - task 5
+    - average expansions: 55.0
+      run 1:
+        expansions: timed out
+      run 2:
+        expansions: timed out
+      run 3:
+        expansions: timed out
+      run 4:
+        expansions: '55'
+        plan length: '21'
+      run 5:
+        expansions: timed out
+  - - task 6
+    - average expansions: 48.75
+      run 1:
+        expansions: '61'
+        plan length: '43'
+      run 2:
+        expansions: timed out
+      run 3:
+        expansions: '47'
+        plan length: '41'
+      run 4:
+        expansions: '42'
+        plan length: '41'
+      run 5:
+        expansions: '45'
+        plan length: '43'
+  - - task 7
+    - average expansions: 55.33
+      run 1:
+        expansions: '54'
+        plan length: '41'
+      run 2:
+        expansions: timed out
+      run 3:
+        expansions: '56'
+        plan length: '43'
+      run 4:
+        expansions: '56'
+        plan length: '41'
+      run 5:
+        expansions: timed out
+  - - task 8
+    - average expansions: 0
+      run 1:
+        expansions: timed out
+      run 2:
+        expansions: timed out
+      run 3:
+        expansions: timed out
+      run 4:
+        expansions: timed out
+      run 5:
+        expansions: timed out
+  - - task 9
+    - average expansions: 0
+      run 1:
+        expansions: timed out
+      run 2:
+        expansions: timed out
+      run 3:
+        expansions: timed out
+      run 4:
+        expansions: timed out
+      run 5:
+        expansions: timed out
+  - - task 10
+    - average expansions: 19.8
+      run 1:
+        expansions: '20'
+        plan length: '18'
+      run 2:
+        expansions: '22'
+        plan length: '18'
+      run 3:
+        expansions: '18'
+        plan length: '18'
+      run 4:
+        expansions: '19'
+        plan length: '18'
+      run 5:
+        expansions: '20'
+        plan length: '18'
+  - - task 11
+    - average expansions: 0
+      run 1:
+        expansions: timed out
+      run 2:
+        expansions: timed out
+      run 3:
+        expansions: timed out
+      run 4:
+        expansions: timed out
+      run 5:
+        expansions: timed out
+  - - task 12
+    - average expansions: 45.0
+      run 1:
+        expansions: timed out
+      run 2:
+        expansions: '43'
+        plan length: '41'
+      run 3:
+        expansions: '45'
+        plan length: '39'
+      run 4:
+        expansions: '47'
+        plan length: '41'
+      run 5:
+        expansions: '45'
+        plan length: '39'
+  - - task 13
+    - average expansions: 51.75
+      run 1:
+        expansions: '51'
+        plan length: '39'
+      run 2:
+        expansions: timed out
+      run 3:
+        expansions: '52'
+        plan length: '37'
+      run 4:
+        expansions: '53'
+        plan length: '37'
+      run 5:
+        expansions: '51'
+        plan length: '39'
+  - - task 14
+    - average expansions: 76.0
+      run 1:
+        expansions: timed out
+      run 2:
+        expansions: timed out
+      run 3:
+        expansions: timed out
+      run 4:
+        expansions: timed out
+      run 5:
+        expansions: '76'
+        plan length: '62'
+  - - task 15
+    - average expansions: 0
+      run 1:
+        expansions: timed out
+      run 2:
+        expansions: timed out
+      run 3:
+        expansions: timed out
+      run 4:
+        expansions: timed out
+      run 5:
+        expansions: timed out

@@ -34,12 +34,12 @@ def main():
     domain_list.remove('transport')
     domain_list.remove('woodworking')
     domain_list.remove('pegsol')
-    # domain_list.remove('elevators')
-    # domain_list.remove('airport')
-    # domain_list.remove('zenotravel')
-    # domain_list.remove('psr-small')
-    # domain_list.remove('gripper')
-    # domain_list.remove('scanalyzer')
+    domain_list.remove('elevators')
+    domain_list.remove('airport')
+    domain_list.remove('zenotravel')
+    domain_list.remove('psr-small')
+    domain_list.remove('gripper')
+    domain_list.remove('scanalyzer')
   
 
     # if want to do just 1 experiment, either remove loop or just set loop to 1 iteration and specify domain file
