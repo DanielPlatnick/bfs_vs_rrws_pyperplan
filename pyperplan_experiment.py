@@ -40,6 +40,10 @@ def main():
     domain_list.remove('psr-small')
     domain_list.remove('gripper')
     domain_list.remove('scanalyzer')
+    domain_list.remove('satellite')
+    domain_list.remove('rovers')
+    domain_list.remove('openstacks')
+    domain_list.remove('logistics')
   
 
     # if want to do just 1 experiment, either remove loop or just set loop to 1 iteration and specify domain file
