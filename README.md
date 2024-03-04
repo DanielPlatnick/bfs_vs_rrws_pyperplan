@@ -8,6 +8,7 @@ experiment with different random-walk based algorithms on PDDL problems.
 
 Information about the authors of the original Pyperplan library can be found below.
 
+
 **Pyperplan** is a lightweight STRIPS planner written in Python.
 
 Please note that Pyperplan deliberately prefers clean code over fast
